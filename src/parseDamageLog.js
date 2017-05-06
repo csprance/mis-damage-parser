@@ -4,7 +4,7 @@
  * Description:
  */
 const parseDamageLog = (log) => {
-
+  return log;
 };
 
 export default parseDamageLog;

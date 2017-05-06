@@ -9,7 +9,7 @@
     "build": "babel-node ./scripts/emptyFolder && webpack --config ./webpack.prod.config.js",
     "dev": "webpack-dev-server --content-base src/index --hot --host 0.0.0.0 --config ./webpack.config.js",
     "watch": "webpack --progress --colors --watch --config ./webpack.config.js",
-    "test": "karma start --reporters html"
+    "test": "node karma.launch.js"
   },
   "license": "MIT",
   "devDependencies": {
@@ -40,7 +40,9 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {},
+  "dependencies": {
+    "opn": "^5.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JeffGuKang/npm-webpack-boilerplate"
