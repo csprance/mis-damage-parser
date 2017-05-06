@@ -1,5 +1,5 @@
 /*
-  karma configuration
+ karma configuration
  */
 
 var path = require('path');
@@ -14,9 +14,9 @@ module.exports = function (config) {
     // - Safari (only Mac; has to be installed with `npm install karma-safari-launcher`)
     // - PhantomJS
     // - IE (only Windows; has to be installed with `npm install karma-ie-launcher`)
-    browsers: ['Chrome','PhantomJS','Firefox'],
+    browsers: ['Chrome', 'PhantomJS', 'Firefox'],
     files: [
-      { pattern: 'tests.webpack.js', watched: false }
+      {pattern: 'tests.webpack.js', watched: false}
     ],
     frameworks: [
       'jasmine',
@@ -31,7 +31,7 @@ module.exports = function (config) {
     singleRun: true,
     autoWatch: false,
     // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-    reporters: ['progress', 'html'],
+    reporters: ['progress', 'html', 'dots'],
 
     htmlReporter: {
       outputFile: 'report/units.html',

@@ -1,19 +1,13 @@
-/*
-  Example Unit Test
- */
+/* global it, describe, before, after, expect */
+import damageLog from './mockDamageLog';
 
-import Calculator from '../src/calculator';
 
-describe('Calculator', () => {
-  it('should add two numbers', () => {
-    const calculator = new Calculator();
-    const sum = calculator.add(5, 2);
-    expect(sum).toBe(7);
+describe('Tests integrity', () => {
+  it('should pass', () => {
+    expect(7).toBe(7);
   });
 
-  it('should substract two numbers', () => {
-    const calculator = new Calculator();
-    const sub = calculator.sub(5, 2);
-    expect(sub).toBe(3);
+  it('should fail', () => {
+    expect(3).toBe(3);
   });
 });
