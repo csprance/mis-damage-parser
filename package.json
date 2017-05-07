@@ -1,6 +1,6 @@
 {
   "name": "mis-damage-parser",
-  "version": "0.5.3",
+  "version": "0.0.1",
   "main": "src/index.js",
   "engines": {
     "node": ">=0.4.5"
@@ -34,6 +34,7 @@
     "karma-jasmine": "^1.0.2",
     "karma-phantomjs-launcher": "^1.0.2",
     "karma-webpack": "^1.8.0",
+    "opn": "^5.0.0",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.16.1"
   },
@@ -41,19 +42,16 @@
     "test": "test"
   },
   "dependencies": {
-    "opn": "^5.0.0"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JeffGuKang/npm-webpack-boilerplate"
+    "url": "git+https://github.com/csprance/mis-damage-parser"
   },
   "keywords": [
-    "npm",
-    "webpack",
-    "node",
-    "module",
-    "starterkit",
-    "boilerplate"
+    "miscreated",
+    "damage logs",
+    "log parser",
+    "damageLogs"
   ],
   "author": "",
   "bugs": {
