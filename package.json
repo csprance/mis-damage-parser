@@ -42,6 +42,7 @@
     "test": "test"
   },
   "dependencies": {
+    "line-by-line": "^0.1.5"
   },
   "repository": {
     "type": "git",

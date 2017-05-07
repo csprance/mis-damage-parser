@@ -18,7 +18,7 @@ const projectile = /(projectile:)(.*)/;
 
 const parseDamageLog = (log) => {
   return log
-    .split('\n') // split it by line
+    .split('\r\n') // split it by line
     .map(line => splitLineIntoValues(line)); // split each line into it's values
 };
 
