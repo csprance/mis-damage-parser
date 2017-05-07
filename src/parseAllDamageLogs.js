@@ -10,8 +10,7 @@ const parseAllDamageLogs = (folder) => {
   readFiles(folder)
     .then(files => {
       files.forEach((item, index) => {
-        let x = parseDamageLog(item.contents);
-        console.log(x);
+        console.log(parseDamageLog(item.contents)[0]);
       });
     })
     .catch(e => {

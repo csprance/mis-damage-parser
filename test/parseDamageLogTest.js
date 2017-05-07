@@ -15,11 +15,11 @@ describe('parseDamageLog', () => {
   });
 
   it('projectile', () => {
-    expect(results[78].projectile).toBe('ammo_12_gauge_pellet');
+    expect(results[85].projectile).toBe('ammo_5_56x45');
   });
 
   it('weird characters', () => {
-    expect(results[500].shooterName).toBe('Survivor(1)');
+    expect(results[0].shooterName).toBe('Survivor(1)');
   });
 
 });

@@ -42,6 +42,7 @@
     "test": "test"
   },
   "dependencies": {
+    "babyparse": "^0.4.6",
     "line-by-line": "^0.1.5"
   },
   "repository": {
