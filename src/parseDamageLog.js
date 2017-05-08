@@ -4,69 +4,85 @@
  * Description:
  */
 import Baby from 'babyparse';
-//TODO: Handle different types hit, collision, explosion
 
-const parseDamageLog = (data) => {
-  const config = {
-    delimiter: ',',	// auto-detect
-    newline: '\r\n',	// auto-detect
-    quoteChar: '"'
-  };
+/**
+ @param data [string] the data a string from a file to parse
+ @param path [string] the file they're being parsed from default=''
+ @returns Object
+ */
+function parseDamageLog(data, path = '') {
+  return Baby.parse(data).data.map(data => {
+    const [others, ...log] = [...data.map(i => i.trim())];
+    const [time, type, dash, steamID] = others.split(' '); // trim and split;
+    log.push(steamID);
+    const retObj = {
+      path,
+      type,
+      time: time.replace('[', '').replace(']', ''),
+      targetSteamID: getValue(log, 'targetSteamID'),
+      targetName: getValue(log, 'targetName'),
+      damage: getValue(log, 'damage'),
+      kill: getValue(log, 'kill'),
+    };
+    // each type has different values extract only what each one needs
+    switch (type) {
+      case 'explosion':
+        return {
+          ...retObj,
+          shooterSteamID: getValue(log, 'shooterSteamID'),
+          shooterName: getValue(log, 'shooterName'),
+          weapon: getValue(log, 'weapon'),
+        };
+      case 'collision':
+        return {
+          ...retObj,
+          driverSteamID: getValue(log, 'driverSteamID'),
+          driverName: getValue(log, 'driverName'),
+          driverFaction: getValue(log, 'driverFaction'),
+          targetFaction: getValue(log, 'targetFaction'),
+          vehicle: getValue(log, 'vehicle'),
+          relspeedsq: getValue(log, 'relspeedsq'),
+          part: getValue(log, 'part'),
+        };
+      case 'hit' :
+        return {
+          ...retObj,
+          shooterSteamID: getValue(log, 'shooterSteamID'),
+          shooterName: getValue(log, 'shooterName'),
+          shooterFaction: getValue(log, 'shooterFaction'),
+          targetFaction: getValue(log, 'targetFaction'),
+          weapon: getValue(log, 'weapon'),
+          distance: getValue(log, 'distance'),
+          melee: getValue(log, 'melee'),
+          headshot: getValue(log, 'headshot'),
+          part: getValue(log, 'part'),
+          hitType: getValue(log, 'hitType'),
+          projectile: getValue(log, 'projectile'),
+        };
+      default:
+        return {
+          ...log
+        };
+    }
+  });
+}
 
-  return Baby.parse(data, config).data.map(data => {
-    const dataArray = [...data.map(i => i.trim())];
-    const [time, type, garbage, shooterSteamId] = data[0].split(' ');
-    dataArray[0] = time.replace('[', '').replace(']', ''); // replace the bad time with the good one
-    dataArray.splice(1, 0, type); // add in the type
-    dataArray.splice(2, 0, shooterSteamId); // add in the shooterSteamId
 
-    return dataArray.map(item => {
-      if (typeof item === 'string') {
-        return removeLabels(item);
+function getValue(log, key) {
+  let retVal = '';
+  log.forEach(item => {
+    if (item !== undefined) {
+      const value = item.replace(`${key}:`, '');
+      if (value.length !== item.length) {
+        retVal = stripQ(value);
       }
-    });
-  })
-    .map(log => ({
-      time: log[0] !== undefined ? log[0] : '',
-      type: log[1] !== undefined ? log[1] : '',
-      shooterSteamID: log[2] !== undefined ? log[2] : '',
-      shooterName: log[3] !== undefined ? log[3] : '',
-      shooterFaction: log[4] !== undefined ? log[4] : '',
-      targetSteamID: log[5] !== undefined ? log[5] : '',
-      targetName: log[6] !== undefined ? log[6] : '',
-      targetFaction: log[7] !== undefined ? log[7] : '',
-      weapon: log[8] !== undefined ? log[8] : '',
-      distance: log[9] !== undefined ? log[9] : '',
-      damage: log[10] !== undefined ? log[10] : '',
-      melee: log[11] !== undefined ? log[11] : '',
-      headshot: log[12] !== undefined ? log[12] : '',
-      kill: log[13] !== undefined ? log[13] : '',
-      part: log[14] !== undefined ? log[14] : '',
-      hitType: log[15] !== undefined ? log[15] : '',
-      projectile: log[16] !== undefined ? log[16] : '',
-    }))
-    .filter(i => i.time !== '');
-};
+    }
+  });
+  return retVal;
+}
 
-function removeLabels(value) {
-  return value
-    .replace('shooterSteamID:', '')
-    .replace('shooterName:', '')
-    .replace('shooterFaction:', '')
-    .replace('targetSteamID:', '')
-    .replace('targetName:', '')
-    .replace('targetFaction:', '')
-    .replace('weapon:', '')
-    .replace('distance:', '')
-    .replace('damage:', '')
-    .replace('damageMult:', '')
-    .replace('melee:', '')
-    .replace('headshot:', '')
-    .replace('kill:', '')
-    .replace('part:', '')
-    .replace('hitType:', '')
-    .replace('projectile:', '')
-    .replace(/"/g, '');
+function stripQ(value) {
+  return value.replace(/"/g, '');
 }
 
 export default parseDamageLog;

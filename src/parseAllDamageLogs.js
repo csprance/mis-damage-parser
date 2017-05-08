@@ -7,16 +7,17 @@ import parseDamageLog from './parseDamageLog';
 import { readFiles } from './logReader';
 
 const parseAllDamageLogs = (folder) => {
-  readFiles(folder)
-    .then(files => {
-      files.forEach((item, index) => {
-        console.log(parseDamageLog(item.contents)[0]);
+  return new Promise((resolve, reject) => {
+
+    readFiles(folder)
+      .then(files => {
+        resolve(files.map((item, index) => parseDamageLog(item.contents, item.filename)));
+      })
+      .catch(e => {
+        reject(e);
       });
-    })
-    .catch(e => {
-      console.log(e);
-    });
+
+  });
 };
 
-parseAllDamageLogs('C:/Users/chris/Downloads/damageLogs');
 export default parseAllDamageLogs;

@@ -1,25 +1,42 @@
 /* global it, describe, before, after, expect */
+import { expect } from 'chai';
+import fs from 'fs';
 import parseDamageLog from '../src/parseDamageLog';
-import mockDamageLog from './mockDamageLog';
+
 
 describe('parseDamageLog', () => {
+  const results = parseDamageLog(fs.readFileSync('./test/damagelog.txt').toString());
 
-  const results = parseDamageLog(mockDamageLog);
-
-  it('normal test', () => {
-    expect(results[42].shooterName).toBe('KrisPbacon');
+  it('name test', () => {
+    expect(results[3].shooterName).to.equal('Survivor');
   });
 
-  it('weird spaces', () => {
-    expect(results[43].shooterName).toBe('V            306');
+
+  it('explosion test', () => {
+    expect(results[0]).to.deep.equal({
+      path: '',
+      type: 'explosion',
+      time: '01:24:02.567',
+      targetSteamID: '76561197989298229',
+      targetName: 'Ritter',
+      damage: '2.00',
+      kill: '0',
+      shooterSteamID: '76561198344728053',
+      shooterName: 'Bounce',
+      weapon: 'hk45'
+    });
   });
 
-  it('projectile', () => {
-    expect(results[85].projectile).toBe('ammo_5_56x45');
+  it('collision test', () => {
+    expect(results[1].driverSteamID).to.equal('<unknown>');
   });
 
-  it('weird characters', () => {
-    expect(results[0].shooterName).toBe('Survivor(1)');
+  it('comma in the name', () => {
+    // [02:07:51.221] hit - shooterSteamID:76561198002854092, shooterName:"Survi,vor", shooterFaction:"",
+    // targetSteamID:76561198002854092, targetName:"Survivor", targetFaction:"", weapon:<unknown>, distance:0.00,
+    // damage:0.20*1.00x*1.00x=0.20, melee:0, headshot:0, kill:0, part:-1(unknown part), hitType:bleed, projectile:
+    expect(results[2].shooterName).to.equal('Survi,vor');
   });
+
 
 });

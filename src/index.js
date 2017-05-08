@@ -1,4 +1,4 @@
-import parseDamageLog from './parseDamageLog'; //import example calculator
-import page from './page';
+import parseDamageLog from './parseDamageLog';
+import parseAllDamageLogs from './parseAllDamageLogs';
 
-export default parseDamageLog;
+export default {parseDamageLog, parseAllDamageLogs};
